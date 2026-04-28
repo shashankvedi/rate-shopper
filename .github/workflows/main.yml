@@ -1,0 +1,32 @@
+name: Daily Rate Shopper
+
+# 1. When should this run?
+on:
+  schedule:
+    - cron: '0 2 * * *' # Runs at 2:00 AM UTC (7:30 AM IST) every day
+  workflow_dispatch: # This allows us to click a button to run it manually right now
+
+# 2. What should it do?
+jobs:
+  scrape-and-save:
+    runs-on: ubuntu-latest # A free Linux server provided by GitHub
+    
+    steps:
+      - name: Grab the repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run the scraper script
+        run: python scraper.py
+
+      - name: Commit and push the new data back to the repo
+        run: |
+          git config --global user.name "Rate Shopper Bot"
+          git config --global user.email "bot@example.com"
+          git add live_rates.json
+          git commit -m "Automated update: New market rates" || echo "No changes to commit"
+          git push
