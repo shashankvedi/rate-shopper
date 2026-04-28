@@ -8,7 +8,7 @@ def get_rates():
     # This is the simulated market data we will eventually pull from OTAs
     market_data = {
         "date_checked": today,
-        "competitor_1": "₹2,500",
+        "competitor_1": "₹2,600",
         "competitor_2": "₹2,800"
     }
 
